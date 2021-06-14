@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ezBudget", "ezBudget\ezBudget.csproj", "{9BE5C39B-AC60-43C7-8279-B0963ACA4894}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9BE5C39B-AC60-43C7-8279-B0963ACA4894}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BE5C39B-AC60-43C7-8279-B0963ACA4894}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BE5C39B-AC60-43C7-8279-B0963ACA4894}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BE5C39B-AC60-43C7-8279-B0963ACA4894}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {452624F6-F8E5-4A4C-9951-35AA32E8A6AA}
+	EndGlobalSection
+EndGlobal
