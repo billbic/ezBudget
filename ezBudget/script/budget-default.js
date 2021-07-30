@@ -1118,7 +1118,7 @@ function CalculateBudget() {
 
         $.ajax({
             type: "POST",
-            url: "../budget/default.aspx/GetPrevTotal",
+            url: "../budget/default.aspx/GetPrevTotal", 
             data: "{userId: '" + userId + "',dt: '" + dtPrev + "'}",
             cache: false,
             contentType: "application/json; charset=utf-8",
@@ -1138,7 +1138,6 @@ function CalculateBudget() {
                     var errFree;
                     var rounded = 0;
 
-
                     $.each($('[dbcalc]'), function (keys, value) {
                         try {
                             errFree = true;
@@ -1150,6 +1149,8 @@ function CalculateBudget() {
                                 errFree = false;
                             }
 
+                            //probably issue here with weeks with only one day
+                            //probably, you may want to test here.
                             if (errFree) {
                                 amt = $('#Amt-' + pk).val();
                                 if (dt == "" || dt == $('#Date-' + pk).val()) {
