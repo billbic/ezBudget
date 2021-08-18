@@ -642,9 +642,11 @@ function pad(num) {
 function btnRefresh_onclick() {
     try {
         $('#grdBudget').fadeOut(2000);
+        $('#btnRefresh').fadeOut(2000);
 
         LoadBudget($('#chkHideReconciled').prop('checked'));
         BuildStylesForDescriptionElement();
+        $('#grdBudget').fadeIn(2000);
     } catch (e) {
         alert(e.Message);
     }
@@ -681,7 +683,7 @@ function LoadBudget(hideReconciledEntries) {
             dataType: "json",
             success: function (data) {
                 $('#grdBudget').html(data.d);
-                $('#grdBudget').fadeIn(2000);
+                $('#btnRefresh').fadeIn(2000);
 
                 RebuildTimer();
 
@@ -1174,14 +1176,15 @@ function CalculateBudget() {
                                     }
 
                                     $('#' + key).prop("title", "Reconciled: " + reconciledSum.toFixed(2));
-                                    reconciledSum = 0;
+                                    //reconciledSum = 0;
                                     $('#' + key).text(sum.toFixed(2));
+                                   //sum = 0;
                                 }
 
                                 //Calculating the Subtotal, if it was not finished.
                                 dt = $('#Date-' + pk).val();
                                 if ($('#Inc-' + pk).is(":checked")) {
-                                    sum = sum + (amt * 1);
+                                    sum += (amt * 1);
                                 }
 
                                 //calculate reconciled if its not:

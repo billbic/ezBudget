@@ -467,12 +467,14 @@ namespace ezBudget.budget
                             "id='Descr-" + dr["id"].ToString() + "' " + 
                             "class='ExpandableInput' type='text' value='" + dr["LedgerDescription"].ToString() + "' /></div>");
                         
-                        sb.Append("<div style='" + display + "' class='col-1 gridContent RowAmount'><input " +
+                        sb.Append("<div style='" + display + "' class='col-1 gridContent RowAmount'>" + 
+                            "<input " +
                            "original='" + amt + "' " +
                            "onblur=\"Amt_onblur(" + dr["id"].ToString() + ");\" " +
                             "onfocus=\"Amt_onfocus(" + dr["id"].ToString() + ");\" " +
                             "oninput=\"Amt_oninput(" + dr["id"].ToString() + ", 'red')\"" + " id='Amt-" + dr["id"].ToString() + "' " +
-                            "style='" + "color:" + clr + ";' type='text' class='AmountItem'  value='" + amt + "' /></div>");
+                            "style='" + "color:" + clr + ";' type='text' class='AmountItem'  value='" + amt + "' />" + 
+                            "</div>");
 
                         sb.Append("<div class='col-xs-1' style='text-align:left!important;padding-left:3px'>" +
                            "<button " +
@@ -714,12 +716,10 @@ namespace ezBudget.budget
                 {
                     string userId = User.Identity.Name;
                     string dtSelected = selectedDate.InnerText;
+
                     DataSet dsStatus = GetDataSet("spStatus_Get");
                     DataSet dsCategory = GetDataSet("spCategory_Get", new[] {
                         new SqlParameter("@UserId",userId)});
-
-                    //Setting html value, so I can re-authenticate using ajax.
-                 //   authId.Value = "ee";
 
                     for (int i = DateTime.Now.Year; i >= 2018; i--)
                     {
@@ -752,9 +752,6 @@ namespace ezBudget.budget
                     authId.Value = Session["authId"].ToString();
 
                 }
-               // FormsAuthenticationTicket fat = 
-                //Response.Write(Session["authId"]);
-                //authId.Value = Session["authId"].ToString();
 
             }
             catch (Exception)
