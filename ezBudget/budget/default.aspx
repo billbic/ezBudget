@@ -53,10 +53,9 @@
                 <label for="tab2"><i class="icon-comment"></i>Notes</label>
 
                 <input type="radio" name="pcss3t" id="tab3" class="tab-content-3">
-                <label for="tab3"><i class="icon-cogs"></i>Analysis</label>
+                <label for="tab3"><i class="icon-edit"></i>Configuration</label>
 
                 <input type="radio" name="pcss3t" id="tab5" class="tab-content-last">
-                <label for="tab5"><i class="icon-file"></i>Reports</label>
 
                 <input type="radio" name="pcss3t" id="tab6" class="tab-content-last"/>
                 <label title="Log Out" class="LogOut" onclick="window.location='../'" for="tab6"><i class="icon-file"></i>Log Out</label>
@@ -219,7 +218,7 @@
 
                         <!-- Budget -->
                         <div class="TabContent">
-                            <div class="row no-gutters offset-3">
+                            <div class="row no-gutters offset-2">
                             <div class="col-10" id="FilterBar">Category Filter:
                                 <select oninput="selFilterCategory_oninput()" runat="server" id="selFilterCategory">
                                     <option value="">All</option>
@@ -234,92 +233,14 @@
                     <li id="liTabs" runat="server" class="tab-content tab-content-2 typography"></li>
 
                     <!-- Budget Analysis -->
-                    <%--                  <li class="tab-content-3 typography">
-                        <h1>Budget Analysis</h1>
-                        <p style="text-align: left;max-width:400px; width:333px;">
-                           
-
-                        The 60/40 rule is (60% debt, 40% savings) <br/>
-                        The 80/20 rule is (80% debt, 20% savings)<br/><br/>
-
-                        Monthly housing costs, which include mortgage payments, insurance, 
-                                 taxes and condo or association fees, shouldn't exceed 28% of your monthly gross income.<br/><br/>
-
-                        Monthly debt payments, including credit card bills and student loans, shouldn't exceed 36% of your gross income
-                           
-                        </p>
-
-                    </li>--%>
+                    
 
                         <!-- Reports -->
                     <li class="tab-content-last typography">
                         <div class="typography">
                             <h1>Reports</h1>
                         </div>
-                        <div class="ReportOptions">
-                            <div class="row col-4 ReportSubHeader">Filtering Options:</div>
-                            <div class="row">
-                                <div class="col-2 ReportOption">Month</div>
-                                <div class="col-2 ReportOption">Year</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-2">
-                                    <select id="ReportMonth">
-                                        <option value='0'>All</option>
-                                        <option value='1'>Jan</option>
-                                        <option value='2'>Feb</option>
-                                        <option value='3'>Mar</option>
-                                        <option value='4'>Apr</option>
-                                        <option value='5'>May</option>
-                                        <option value='6'>Jun</option>
-                                        <option value='7'>Jul</option>
-                                        <option value='8'>Aug</option>
-                                        <option value='9'>Sep</option>
-                                        <option value='10'>Oct</option>
-                                        <option value='11'>Nov</option>
-                                        <option value='12'>Dec</option>
-                                    </select>
-                                </div>
-                                <div class="col-2">
-                                    <select runat="server" id="ReportYear">
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-2 ReportOption">Status</div>
-                                <div class="col-2 ReportOption">Category</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-2">
-                                    <select id="ReportStatus">
-                                        <option value='0'>All</option>
-                                        <option value='1'>Budgeted</option>
-                                        <option value='2'>Pending</option>
-                                        <option value='3'>Returned</option>
-                                        <option value='4'>Reconciled</option>
-                                    </select>
-                                </div>
-                                <div class="col-2">
-                                    <select runat="server" id="ReportCategory">
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-4 rptButton" title="View Report" id="btnReportFilter" onclick="btnReportFilter_onclick()">Click Here To Display</div>
-                            </div>
-                            <div style="padding: 30px;">
-                                <div class="row" style="white-space: nowrap; margin-bottom: 5px;">
-                                    <div class="col-1 reportHeader WDate">Date</div>
-                                    <div class="col-1 reportHeader WInclude">Inc</div>
-                                    <div class="col-2 reportHeader WStatus">Status</div>
-                                    <div class="col-2 reportHeader WCategory">Category</div>
-                                    <div class="col-5 reportHeader WDescription">Description</div>
-                                    <div class="col-1 reportHeader WAmount">Amount</div>
-                                </div>
-                                <div id="FilterReportResults">
-                                </div>
-                            </div>
-                        </div>
+                        
                     </li>
                 </ul>
             </div>

@@ -343,7 +343,7 @@ namespace ezBudget.budget
                 Decimal amtSum = prevAmt;
                // sb.Append("<div class='BalanceForward'>Balance Forward: " + prevAmt.ToString() + "</div>");
 
-                sb.Append("<div class='row offset-3 no-gutters' style='margin-bottom:3px'>" +
+                sb.Append("<div class='row offset-2 no-gutters' style='margin-bottom:3px'>" +
                     "<div class='col-1 gridHeaderNoFormat WCommand'></div>" +
                     "<div class='col-1 gridHeaderNoFormat WDate'></div>" +
                     "<div class='col-xs-1 gridHeaderNoFormat WInclude' style='width:20px'></div>" +
@@ -356,7 +356,7 @@ namespace ezBudget.budget
 
 
 
-                sb.Append("<div class='row offset-3 no-gutters' style='margin-bottom:3px'>" +
+                sb.Append("<div class='row offset-2 no-gutters' style='margin-bottom:3px'>" +
                     "<div class='col-1 gridHeader WCommand'></div>" +
                     "<div class='col-1 gridHeader WDate'>Date</div>" +
                     "<div class='col-xs-1 gridHeader WInclude'>Inc</div>" +
@@ -409,7 +409,7 @@ namespace ezBudget.budget
                             //Add this to bottom of last section
                             sb.Append("<div style='display:none' id='InsertBar-" + DateTime.Parse(dtPayDate).ToString("Mdyyyy") + "' ></div>");
 
-                            sb.Append("<div class='row offset-3 no-gutters' style='margin-bottom:3px'>" +
+                            sb.Append("<div class='row offset-2 no-gutters' style='margin-bottom:3px'>" +
                            "<div class='col-1 gridHeaderNoFormat WCommand'></div>" +
                            "<div class='col-1 gridHeaderNoFormat WDate'></div>" +
                            "<div class='col-xs-1 gridHeaderNoFormat WInclude' style='width:20px'></div>" +
@@ -435,7 +435,7 @@ namespace ezBudget.budget
                             display = "";
                         }
 
-                        sb.Append("<div dt='" + dtPayDate + "' id='Row-" + dr["id"].ToString() + "' class='row no-gutters offset-3' dbcalc='true' >");
+                        sb.Append("<div dt='" + dtPayDate + "' id='Row-" + dr["id"].ToString() + "' class='row no-gutters offset-2' dbcalc='true' >");
                         sb.Append("<div class='col-1 RowCommand'>" +
                             "<input id='Cmd-" + dr["id"].ToString() + "'" +
                             "onclick='SaveOrDelete(" + dr["id"].ToString() + ")' " +
@@ -507,7 +507,7 @@ namespace ezBudget.budget
                 {
                     //This will add to the very end
                     sb.Append("<div style='display:none' id='InsertBar-" + DateTime.Parse(dtPayDate).ToString("Mdyyyy") + "' ></div>");
-                    sb.Append("<div class='row offset-3 no-gutters' style='margin-bottom:3px'>" +
+                    sb.Append("<div class='row offset-2 no-gutters' style='margin-bottom:3px'>" +
                    "<div class='col-1 gridHeaderNoFormat WCommand'></div>" +
                    "<div class='col-1 gridHeaderNoFormat WDate'></div>" +
                    "<div class='col-xs-1 gridHeaderNoFormat WInclude' style='width:20px'></div>" +
@@ -723,7 +723,7 @@ namespace ezBudget.budget
 
                     for (int i = DateTime.Now.Year; i >= 2018; i--)
                     {
-                        ReportYear.Items.Add(i.ToString());
+                        //ReportYear.Items.Add(i.ToString());
                     }
 
                     selFilterCategory.Items.AddRange(BuildFilter(userId, "Status", "SelFilterCategory", "width:100%;height:23px;", "", "white", ""));
@@ -738,15 +738,15 @@ namespace ezBudget.budget
                         }
                     }
 
-                    ReportCategory.Items.Clear();
-                    ReportCategory.Items.Add(new ListItem("All", "0"));
+                    //ReportCategory.Items.Clear();
+                    //ReportCategory.Items.Add(new ListItem("All", "0"));
 
                     if(dsCategory.Tables.Count > 0)
                     {
                         foreach (DataRow dr in dsCategory.Tables[0].Rows)
                         {
                             newCategory.Items.Add(new ListItem(dr["Name"].ToString(), dr["id"].ToString()));
-                            ReportCategory.Items.Add(new ListItem(dr["Name"].ToString(), dr["id"].ToString()));
+                           // ReportCategory.Items.Add(new ListItem(dr["Name"].ToString(), dr["id"].ToString()));
                         }
                     }
                     authId.Value = Session["authId"].ToString();

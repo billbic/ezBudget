@@ -1128,6 +1128,7 @@ function CalculateBudget() {
             success: function (data) {
 
                 try {
+
                     var dt = "";
                     var key = "";
                     var amt = 0;
@@ -1138,7 +1139,6 @@ function CalculateBudget() {
                     var pk = "";
                     var selStatus = "";
                     var errFree;
-                    var rounded = 0;
 
                     $.each($('[dbcalc]'), function (keys, value) {
                         try {
@@ -1147,7 +1147,6 @@ function CalculateBudget() {
                                 pk = $(this).attr('id').replace("Row-", "");
                                 selStatus = ($('#Status-' + pk).val() * 1);
                             } catch (e) {
-                                alert('calc 1' + e.Message);
                                 errFree = false;
                             }
 
@@ -1160,25 +1159,39 @@ function CalculateBudget() {
                                         + ((new Date(dt)).getMonth() + 1)
                                         + (new Date(dt)).getDate()
                                         + (new Date(dt)).getFullYear();
+
+                                    if (key.includes('SubTotal-') ) {
+                                        if (sum > 0) {
+                                            $('#' + key).css("color", "white !important");
+                                            $('#' + key).css("background-color", "red");
+                                        } else {
+                                            $('#' + key).css("color", "black");
+                                            $('#' + key).css("background-color", "transparent");
+                                        }
+                                    }
+
                                     finished = false;
                                 } else {
                                     finished = true;
                                     //Assigns to the SubTotal
                                     //The key, was assigned in the last iteration
                                     //KEY ALREADY HAS SUBTOTAL INSIDE IT
-                                    if (sum > 0) {
-                                        $('#' + key).css("color", "Red");
-                                        $('#' + key).css("font-weight", "900");
-                                    } else {
-                                        $('#' + key).css("color", "white");
-                                        $('#' + key).css("font-weight", "900");
 
+                                    if (key.includes('SubTotal-') ) {
+                                        if (sum > 0) {
+                                            $('#' + key).css("color", "white");
+                                            $('#' + key).css("background-color", "red");
+                                            $('#' + key).css("font-weight", "900");
+                                        } else {
+                                            $('#' + key).css("color", "black");
+                                            $('#' + key).css("background-color", "transparent");
+                                        }
                                     }
 
+                                    // $('#' + key).prop("title", sum + " split " + reconciledSum.toFixed(2));
                                     $('#' + key).prop("title", "Reconciled: " + reconciledSum.toFixed(2));
-                                    //reconciledSum = 0;
                                     $('#' + key).text(sum.toFixed(2));
-                                   //sum = 0;
+
                                 }
 
                                 //Calculating the Subtotal, if it was not finished.
@@ -1192,26 +1205,40 @@ function CalculateBudget() {
                                 //6: Flagged
                                 //7: InProcess
                                 if (selStatus != 1 &&
-                                    selStatus != 6 && 
+                                    selStatus != 6 &&
                                     selStatus != 7) {
-                                        reconciledSum = incommingAmt + reconciledSum + (amt * 1);
-                                        incommingAmt = 0;
+                                    reconciledSum = incommingAmt + reconciledSum + (amt * 1);
+                                    incommingAmt = 0;
                                 }
 
+                            } else {
+                                //alert('not so much, err free');
                             }
                         } catch (e) {
-                            alert('calc 2 ' + e.Message);
+                            alert(e.message);
                         }
                     });
 
 
                     if (!finished) {
+                        if (key.includes('SubTotal-') ) {
+                            if (sum > 0) {
+                                $('#' + key).css("color", "white");
+                                $('#' + key).css("background-color", "red");
+                            } else {
+                               //alert($('#' + key));
+
+                                $('#' + key).css("color", "black");
+                                $('#' + key).css("background-color", "transparent");
+                            }
+                        }
+
                         $('#' + key).prop("title", "Reconciled: " + reconciledSum.toFixed(2));
                         $('#' + key).text(sum.toFixed(2));
                     }
 
                 } catch (e) {
-                    //alert('calc 3 ' + e.Message);
+                    alert(e.message);
                 }
             }
         });
@@ -1289,7 +1316,7 @@ function InsertData(ChangeColor, PayDate, Inc, Status, Category, Descr, Amt) {
                                         + (new Date(PayDate)).getDate()
                                         + (new Date(PayDate)).getFullYear();
 
-                                    var html = "<div dt='" + PayDate + "' id='Row-" + pk + "' class='row  no-gutters offset-3' dbcalc='true' >" +
+                                    var html = "<div dt='" + PayDate + "' id='Row-" + pk + "' class='row  no-gutters offset-2' dbcalc='true' >" +
                                         "<div class='col-1 RowCommand'>" +
                                         "<input id='Cmd-" + pk + "'" +
                                         "onclick='SaveOrDelete(" + pk + ")' " +
