@@ -8,6 +8,7 @@ var _optionCookieName = "ezBudget-Option";
 var _SessionExpired = false;
 var _WarningBeep = false;
 var _divMenuOpen = "Inner-Content-2-Dialog-Calendar";
+var _mnuPayDateSectionID = "";
 var _lastFocusAmountId = 0;
 var _aryDescriptionStyles = {};
 var _isHover = false;
@@ -48,6 +49,8 @@ function Page_Load() {
     $('#li_LeftBar').on('scroll', function () {
         $('#LeftBar').css("top", $('#li_LeftBar').scrollTop() + 10);
     });
+
+
 
     $(document).keyup(function (e) {
         if (e.keyCode == 16 || e.keyCode == 17) {
@@ -126,7 +129,7 @@ function Page_Load() {
     $('#txtTargetMonth').val(NextMonth);
 
     //Just so happens to be on the first tab of the first note
-    $(".CheckThis")[0].click();
+   // $(".CheckThis")[0].click();
 
     var cookie = getCookie(_optionCookieName);
     var opt = JSON.parse(cookie);
@@ -179,6 +182,22 @@ function Page_Load() {
     //So we can see yellow dot in upper right 
     //corner, count down the alloted time
     StartTimeOut();
+}
+//----------------------------------------------------
+function expandSection(pk) {
+    try {
+
+        if ($('#Section-' + pk).is(":hidden")) {
+            $('#PlusOrMinus-' + pk).html(" - ");
+            $('#Section-' + pk).slideDown(2000);
+        } else {
+            $('#PlusOrMinus-' + pk).html(" + ");
+            $('#Section-' + pk).slideUp(2000);
+        }
+
+    } catch (e) {
+        alert("expandSection: " + e.Message);
+    }
 }
 //----------------------------------------------------
 function BuildStylesForDescriptionElement() {
@@ -566,6 +585,7 @@ function downDate() {
         alert(e.Message);
     }
 }//----------------------------------------------------
+
 function ChangeTextInRow(ctrl) {
     try {
         var pk = 0;

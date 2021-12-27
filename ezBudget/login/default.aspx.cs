@@ -15,7 +15,22 @@ namespace ezBudget.register
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+#if DEBUG
+            txtEmail.Text = "billbic@yahoo.com";
+            txtPassword.Text = "Peanutbutter!";
+            string id = Authenticated(txtEmail.Text, txtPassword.Text);
 
+                Session["authId"] = id;
+                FormsAuthentication.SetAuthCookie(id, true);
+                if (Request.QueryString["ReturnUrl"] != null)
+                {
+                    FormsAuthentication.RedirectFromLoginPage(id, false);
+                }
+                else
+                {
+                    Response.Redirect("../budget");
+                }
+#endif
         }
         public string Authenticated(string userName, string pwd)
         {

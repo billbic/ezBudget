@@ -13,6 +13,10 @@ namespace ezBudget
         protected void Page_Load(object sender, EventArgs e)
         {
             FormsAuthentication.SignOut();
+#if DEBUG
+                Response.Redirect("budget");
+#endif
+
         }
     }
 }

@@ -330,7 +330,7 @@ namespace ezBudget.budget
 
                 //Getting first day of the month
                 DateTime dtPrev = new DateTime(date.Year, date.Month, 1);
-                Decimal prevAmt = GetPrevTotal(userId, dtPrev);
+                decimal prevAmt = GetPrevTotal(userId, dtPrev);
 
                 ds = GetDataSet("spLedger_Get", new[] {
                         new SqlParameter("@UserId",userId),
@@ -338,12 +338,11 @@ namespace ezBudget.budget
                         new SqlParameter("@Year", date.Year.ToString()),
                         new SqlParameter("@MonthRange", months) });
 
-                String dtPayDate = "";
-                String amt = "";
-                Decimal amtSum = prevAmt;
-               // sb.Append("<div class='BalanceForward'>Balance Forward: " + prevAmt.ToString() + "</div>");
+                string dtPayDate = "";
+                string amt = "";
+                decimal amtSum = prevAmt;
 
-                sb.Append("<div class='row offset-2 no-gutters' style='margin-bottom:3px'>" +
+                sb.Append("<div class='row offset-2 no-gutters gridHeaderSticky' style='margin-bottom:3px'>" +
                     "<div class='col-1 gridHeaderNoFormat WCommand'></div>" +
                     "<div class='col-1 gridHeaderNoFormat WDate'></div>" +
                     "<div class='col-xs-1 gridHeaderNoFormat WInclude' style='width:20px'></div>" +
@@ -354,9 +353,7 @@ namespace ezBudget.budget
                     "<div class='col-xs-1 gridHeaderNoFormat'></div> " +
                     "</div>");
 
-
-
-                sb.Append("<div class='row offset-2 no-gutters' style='margin-bottom:3px'>" +
+                sb.Append("<div class='gridHeaderSticky row offset-2 no-gutters' style='margin-bottom:3px'>" +
                     "<div class='col-1 gridHeader WCommand'></div>" +
                     "<div class='col-1 gridHeader WDate'>Date</div>" +
                     "<div class='col-xs-1 gridHeader WInclude'>Inc</div>" +
@@ -366,6 +363,7 @@ namespace ezBudget.budget
                     "<div class='col-1 gridHeader WAmount'>Amount</div> " +
                      "<div class='col-xs-1'></div> " +
                    "</div>");
+
                 string StatusSelect = "";
                 string CategorySelect = "";
                 string Options = "";
@@ -374,22 +372,32 @@ namespace ezBudget.budget
                         new SqlParameter("@UserId",userId)});
 
                 DataSet dsStatus = GetDataSet("spStatus_Get");
+
                 string clr = "black";
                 string evt = "";
                 string display = "";
-                bool displayData = false;
                 string Args = "";
+                string StatusText = "";
+                string CategoryText = "";
+                string beginDiv = "";
+                string collapse = "";
 
+                DateTime today = DateTime.Today;
+                DateTime PayDate;
+                bool displayData = false;
+                long nDate = 0;
 
-                String StatusText = "";
-                String CategoryText = "";
-
+                sb.Append("<div class='gridBody'>");
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
+                    nDate = long.Parse(DateTime.Parse(dr["PayDate"].ToString()).ToString("yyyyMMdd"));
                     StatusText = GetTextFromDS(dsStatus, dr["StatusId"].ToString(), "name");
                     CategoryText = GetTextFromDS(dsCategory, dr["CategoryId"].ToString(), "name");
+
                     if (catId == dr["CategoryId"].ToString() || catId == "")
                     {
+
+
                         displayData = true;
                         Args = "class='ComboControl' " +
                             "style='" + "color: " + clr + ";'";
@@ -407,9 +415,9 @@ namespace ezBudget.budget
                         if (!(dtPayDate == DateTime.Parse(dr["PayDate"].ToString()).ToString("MM/dd/yyyy") || dtPayDate == ""))
                         {
                             //Add this to bottom of last section
-                            sb.Append("<div style='display:none' id='InsertBar-" + DateTime.Parse(dtPayDate).ToString("Mdyyyy") + "' ></div>");
+                            sb.Append("<div  style='display:none' id='InsertBar-" + DateTime.Parse(dtPayDate).ToString("Mdyyyy") + "' ></div>");
 
-                            sb.Append("<div class='row offset-2 no-gutters' style='margin-bottom:3px'>" +
+                            sb.Append("<div class='row offset-2 no-gutters' style='margin-bottom:3px;'>" +
                            "<div class='col-1 gridHeaderNoFormat WCommand'></div>" +
                            "<div class='col-1 gridHeaderNoFormat WDate'></div>" +
                            "<div class='col-xs-1 gridHeaderNoFormat WInclude' style='width:20px'></div>" +
@@ -420,22 +428,49 @@ namespace ezBudget.budget
                            "<div class='col-xs-1 gridHeaderNoFormat'></div> " +
                           "</div>");
 
-
                         }
+                        if ((dtPayDate != DateTime.Parse(dr["PayDate"].ToString()).ToString("MM/dd/yyyy") || dtPayDate == ""))
+                        {
+                            PayDate = DateTime.Parse(dr["PayDate"].ToString());
+                            if (today > PayDate)
+                            {
+                                collapse = "display:none";
+                            }
+                            else
+                            {
+                                collapse = "";
+                            }
+                                sb.Append(beginDiv);
+                            if (collapse == "")
+                            {
+                                sb.Append("<div class='row offset-2 no-gutters dateSection' style='margin-bottom:3px'>" +
+                                    "<div class='col-12'><a href='#' onclick='expandSection(\"" + nDate.ToString() + "\")'><span class='fixedBlock' id='PlusOrMinus-" + nDate.ToString() + "'> - </span>" + DateTime.Parse(dr["PayDate"].ToString()).ToString("MMMM dd, yyyy") + "</a></div> " +
+                                    "</div>");
+                            }
+                            else
+                            {
+                                sb.Append("<div class='row offset-2 no-gutters dateSection' style='margin-bottom:3px'>" +
+                                    "<div class='col-12'><a href='#' onclick='expandSection(\"" + nDate.ToString() + "\")'><span class='fixedBlock' id='PlusOrMinus-" + nDate.ToString() + "'> + </span>" + DateTime.Parse(dr["PayDate"].ToString()).ToString("MMMM dd, yyyy") + "</a></div> " +
+                                    "</div>");
+                            }
+                            sb.Append("<div style='" + collapse + "' id ='Section-" + nDate.ToString() + "'> ");
+                       }
+
                         amtSum += Decimal.Parse(amt);
 
-                        dtPayDate = DateTime.Parse(dr["PayDate"].ToString()).ToString("MM/dd/yyyy");
                         //dbcalc allows me to iterate (identify each row), when doing a calculate or save all
                         if (hideRecon && (dr["StatusId"].ToString() == "4" || dr["StatusId"].ToString() == "2"))
                         {
-                            display = "opacity:.55";
+                            display = "opacity:.25";
                         }
                         else
                         {
                             display = "";
                         }
 
-                        sb.Append("<div dt='" + dtPayDate + "' id='Row-" + dr["id"].ToString() + "' class='row no-gutters offset-2' dbcalc='true' >");
+                        dtPayDate = DateTime.Parse(dr["PayDate"].ToString()).ToString("MM/dd/yyyy");
+
+                        sb.Append("<div dt ='" + dtPayDate + "' id='Row-" + dr["id"].ToString() + "' class='row no-gutters offset-2' dbcalc='true' >");
                         sb.Append("<div class='col-1 RowCommand'>" +
                             "<input id='Cmd-" + dr["id"].ToString() + "'" +
                             "onclick='SaveOrDelete(" + dr["id"].ToString() + ")' " +
@@ -455,8 +490,8 @@ namespace ezBudget.budget
                         {
                             sb.Append("<div style='" + display + "' class='col-xs-1 gridContent RowInclude'><input onclick=\"ToggleInclude(" + dr["id"].ToString() + ");\" id='Inc-" + dr["id"].ToString() + "' type='checkbox' checked /></div>");
                         }
-                        sb.Append("<div style='" + display + "' class='col-2 gridContent RowStatus'>" + StatusSelect + "</div>");
 
+                        sb.Append("<div style='" + display + "' class='col-2 gridContent RowStatus'>" + StatusSelect + "</div>");
                         sb.Append("<div style='" + display + "' class='col-2 gridContent RowCategory'>" + CategorySelect + "</div>");
 
                         sb.Append("<div style='" + display + "' class='col-3 gridContent RowDescription'>" +
@@ -494,14 +529,16 @@ namespace ezBudget.budget
                         else
                         {
                             //This is the Cancel Button
-
                             sb.Append("<div class='col-xs-1' style='text-align:left!important;padding-left:3px'><img style='display:none' id='Flag" +
                                 dr["id"].ToString() + "' title='Flagged Expense' alt='Flagged' src='../images/SmallRedFlag.png'></div>");
                         }
                         sb.Append(" </div>");
                     }
-                }
+                    beginDiv = "</div>";
 
+                }
+                sb.Append("</div>");
+                
                 //This is here because when selecting only a category, we do not want the grid to show.
                 if (displayData)
                 {
@@ -517,6 +554,7 @@ namespace ezBudget.budget
                    "<div class='col-1 gridHeaderNoFormat WAmount sTotal' id='SubTotal-" + DateTime.Parse(dtPayDate).ToString("Mdyyyy") + "' >" + amtSum.ToString() + "</div>" +
                    "<div class='col-xs-1 gridHeaderNoFormat'></div> " +
                   "</div>");
+
                     html = sb.ToString();
                 }
                 else
@@ -876,6 +914,7 @@ namespace ezBudget.budget
             }
             return lst.ToArray();
         }
+        
         private static string BuildSelect(string ToolTip, string prefix, string id, string Args, string options, string eventCode = "")
         {
             string html = "";
